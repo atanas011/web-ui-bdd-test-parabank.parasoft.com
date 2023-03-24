@@ -1,20 +1,27 @@
 package steps;
 
-import io.cucumber.datatable.DataTable;
+import base.BaseUtil;
 import io.cucumber.java.After;
 import io.cucumber.java.Before;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
-import java.util.List;
-import org.junit.Assert;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.edge.EdgeDriver;
 import pages.Login;
+import pages.Overview;
 
-public class Steps {
+import static org.junit.Assert.assertTrue;
+
+public class Steps extends BaseUtil {
 
     private WebDriver driver;
+    private final BaseUtil baseutil;
+    private Overview overview;
+
+    public Steps(BaseUtil util) {
+        baseutil = util;
+    }
 
     @Before
     public void setUp() {
@@ -27,15 +34,16 @@ public class Steps {
         driver.get("https://parabank.parasoft.com/parabank/index.htm");
     }
 
-    @When("User enters valid credentials")
-    public void user_submits_valid_credentials(DataTable tbl) {
-        var data = tbl.asLists(String.class);
-        new Login(driver).submit(data.get(0).get(0), data.get(0).get(1));
+    @When("User enters valid {string} and {string} with {string}")
+    public void user_submits_valid_credentials(String username, String password, String fullName) {
+        baseutil.fullName = fullName;
+        overview = new Login(driver).submit(username, password);
     }
 
     @Then("Overview page is displayed")
     public void overview_page_is_displayed() {
-        Assert.assertTrue(driver.getCurrentUrl().contains("overview"));
+        assertTrue(overview.getSmallText().contains(baseutil.fullName));
+        overview.logOut();
     }
 
     @After

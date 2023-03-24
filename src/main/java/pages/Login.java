@@ -13,9 +13,10 @@ public class Login {
         this.driver = driver;
     }
 
-    public void submit(String user, String pass) {
+    public Overview submit(String user, String pass) {
         driver.findElement(username).sendKeys(user);
         driver.findElement(password).sendKeys(pass);
         driver.findElement(username).submit();
+        return new Overview(driver);
     }
 }
