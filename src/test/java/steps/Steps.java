@@ -25,9 +25,9 @@ public class Steps {
         driver.get("https://parabank.parasoft.com/parabank/index.htm");
     }
 
-    @When("User submits valid credentials")
-    public void user_submits_valid_credentials() {
-        new Login(driver).submit("AnaE", "123");
+    @When("User submits valid {string} and {string}")
+    public void user_submits_valid_credentials(String username, String password) {
+        new Login(driver).submit(username, password);
     }
 
     @Then("Overview page is displayed")
