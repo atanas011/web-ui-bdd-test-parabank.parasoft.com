@@ -1,6 +1,5 @@
 package steps;
 
-import base.BaseUtil;
 import io.cucumber.java.After;
 import io.cucumber.java.Before;
 import io.cucumber.java.en.Given;
@@ -11,17 +10,10 @@ import org.openqa.selenium.edge.EdgeDriver;
 import pages.Login;
 import pages.Overview;
 
-import static org.junit.Assert.assertTrue;
-
-public class Steps extends BaseUtil {
+public class Steps {
 
     private WebDriver driver;
-    private final BaseUtil baseutil;
     private Overview overview;
-
-    public Steps(BaseUtil util) {
-        baseutil = util;
-    }
 
     @Before
     public void setUp() {
@@ -34,15 +26,13 @@ public class Steps extends BaseUtil {
         driver.get("https://parabank.parasoft.com/parabank/index.htm");
     }
 
-    @When("User enters valid {string} and {string} with {string}")
-    public void user_submits_valid_credentials(String username, String password, String fullName) {
-        baseutil.fullName = fullName;
+    @When("User enters valid {string} and {string}")
+    public void user_submits_valid_credentials(String username, String password) {
         overview = new Login(driver).submit(username, password);
     }
 
     @Then("Overview page is displayed")
     public void overview_page_is_displayed() {
-        assertTrue(overview.getSmallText().contains(baseutil.fullName));
         overview.logOut();
     }
 

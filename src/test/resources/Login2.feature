@@ -9,4 +9,4 @@ Feature: Login Functionality
     Then Overview page is displayed
     Examples:
       | username | password |
-      | "AnaE"   | "123"    |
+      | "IvaI"   | "456"    |
